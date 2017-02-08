@@ -8,7 +8,7 @@ var WebSocketServer = (function () {
             _this.initBoard();
             _this.io = io.listen(server);
             _this.io.sockets.on('connection', function (client) {
-                client.emit('players', Date.now() + ': Welcome to battleship');
+                client.emit('players', Date.now() + ': Welcome to Draw Poker');
                 client.broadcast.emit('players', Date.now() + ': A new player has arrived');
                 client.on('chat', function (data) { return _this.io.emit('chat', data); });
                 //Extra Exercise
@@ -35,3 +35,4 @@ var WebSocketServer = (function () {
 }());
 exports.WebSocketServer = WebSocketServer;
 ;
+//# sourceMappingURL=app.websockets.js.map
