@@ -24,8 +24,8 @@ var SignUpComponent = (function () {
         console.log("Entrou - SIGNUP");
         var avatar = "avatar_def.png";
         var totalVictories = 0;
-        var totalPoints = 0;
-        var body = JSON.stringify({ name: name, username: username, passwordHash: passwordHash, email: email, avatar: avatar, totalVictories: totalVictories, totalPoints: totalPoints });
+        var totalMoney = 0;
+        var body = JSON.stringify({ name: name, username: username, passwordHash: passwordHash, email: email, avatar: avatar, totalVictories: totalVictories, totalMoney: totalMoney });
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         this.http

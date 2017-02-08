@@ -1,7 +1,7 @@
 "use strict";
 var mongodb = require('mongodb');
 var util = require('util');
-var app_database_1 = require('./app.database');
+var app_database_1 = require("./app.database");
 var app_deck_1 = require("./app.deck");
 var Game = (function () {
     function Game() {
@@ -131,7 +131,7 @@ var Game = (function () {
         // Routes for the games
         this.init = function (server, settings) {
             server.get(settings.prefix + 'games', settings.security.authorize, _this.getGames);
-            //server.get(settings.prefix + 'games/:id', settings.security.authorize, this.getGame);
+            server.get(settings.prefix + 'games/:id', settings.security.authorize, _this.getGame);
             //server.get(settings.prefix + 'games/:id', this.getGame);
             server.get(settings.prefix + 'finishedGames', _this.getGamesFinished);
             server.put(settings.prefix + 'games/:id', settings.security.authorize, _this.updateGame);
