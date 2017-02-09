@@ -18,22 +18,49 @@
                     
                 </div>   
                 <div class="col-md-8"style="text-align: center; border:2px solid">
+
                     <!--<div class="container">-->
 
+
                         <div class="col-md-12">
-                        <div class="col-md-4" ></div>
-                        <div class="col-md-4" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive"></div>
-                        <div class="col-md-4" ></div>
+                            
+                            <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
+                            <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
+                            <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
+                            <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
+                            <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
+                            
                         </div>  
+                        <div class="col-md-4" >
+                                    GAME POT MONEY
+                        </div> <!--pot div-->
                         <div class="col-md-12">
-                        <div class="col-md-4" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive"></div>
-                        <div class="col-md-4" ></div>
-                        <div class="col-md-4" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive"></div>
+                                
+                                <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
+                                <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
+                                <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
+                                <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
+                                <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
+
+                                
+
+                                <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer4()==true"></div><!--player3 div-->
+                                <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer4()==true"></div><!--player3 div-->
+                                <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer4()==true"></div><!--player3 div-->
+                                <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer4()==true"></div><!--player3 div-->
+                                <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer4()==true"></div><!--player3 div-->
+                                
+                            
                         </div>
+                        
                         <div class="col-md-12">
-                        <div class="col-md-4" ></div>
-                        <div class="col-md-4"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive"></div>
-                        <div class="col-md-4" ></div>
+                            
+                            <div class="col-md-2"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" ></div><!--player4 div-->
+                            <div class="col-md-2"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" ></div><!--player4 div-->
+                            <div class="col-md-2"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" ></div><!--player4 div-->
+                            <div class="col-md-2"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" ></div><!--player4 div-->
+                            <div class="col-md-2"><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" ></div><!--player4 div-->
+                            
                         </div>
                     <!--</div>-->
                     
@@ -46,6 +73,10 @@
                     <img style= "height: 80px; width: 80px;"  src="./img/{{creatorAvatar}}" class="img-circle"><br> {{creatorName}}
                     
                 </div>
+                <a style="width:150px" id="btn-home" class="btn btn-info" routerLink ="/gamelobby">Pass</a>
+                <a style="width:150px" id="btn-home" class="btn btn-success" routerLink ="/gamelobby">Raise/Bet</a> <input type="number" name="betValue">
+                <a style="width:150px" id="btn-home" class="btn btn-warning" routerLink ="/gamelobby">Fold</a>
+
                 
             <!--</div>-->
             </div> 
@@ -59,8 +90,7 @@
                 </div>
                 <div style="float:right; font-size: 80%; position: relative; top:-10px; margin-bottom: 10px" >
                     <a style="width:150px" id="btn-home" class="btn btn-success" routerLink ="/gamelobby">Start</a>
-                    <a style="width:150px" id="btn-home" class="btn btn-danger" routerLink ="/gamelobby">Denounce</a>
-                    <a style="width:150px" id="btn-home" class="btn btn-warning" routerLink ="/gamelobby">Quit</a>
+                    <a style="width:150px" id="btn-home" class="btn btn-danger" routerLink ="/gamelobby">Quit</a>
                     
                 </div>
                 <hr>

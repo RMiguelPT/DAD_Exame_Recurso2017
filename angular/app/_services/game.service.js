@@ -61,6 +61,37 @@ var GameService = (function () {
     GameService.prototype.getCreatorAvatar = function () {
         return this.creatorAvatar;
     };
+    GameService.prototype.hasPlayer2 = function () {
+        if (this.player2Name == '') {
+            return false;
+        }
+        return true;
+    };
+    GameService.prototype.hasPlayer3 = function () {
+        if (this.player3Name == '') {
+            return false;
+        }
+        return true;
+    };
+    GameService.prototype.hasPlayer4 = function () {
+        if (this.player4Name == '') {
+            return false;
+        }
+        return true;
+    };
+    GameService.prototype.updateGame = function (body, gameId) {
+        var _this = this;
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'bearer ' + this.authToken);
+        this.http.put(this.Path + 'games/' + gameId, body, { headers: headers, withCredentials: false })
+            .subscribe(function (response) {
+            _this.router.navigate(['board', gameId]);
+        }, function (error) {
+            alert(error.text());
+            console.log(error.text());
+        });
+    };
     return GameService;
 }());
 GameService = __decorate([

@@ -67,7 +67,6 @@ var GameLobbyComponent = (function () {
         var player;
         this.gameId = gameId;
         var headers = new http_1.Headers();
-        var totPlayers;
         var games = [];
         var i = 1;
         var playerID = sessionStorage.getItem('_id');
@@ -85,7 +84,7 @@ var GameLobbyComponent = (function () {
                     return;
                 }
             }
-            //verificar se o próprio jogador não esta no array de jogo
+            //verificar se o jogo está cheio
             if (totPlayers < 4) {
                 _this.getGame(_this.gameId);
                 _this.userGames = [{ player: player }];
@@ -95,17 +94,14 @@ var GameLobbyComponent = (function () {
                     var item = games_2[_a];
                     if (i == 0) {
                         console.log(item.name);
-                        console.log(item.avatar);
                         _this.game.setCreatorNameAndAvatar(item.name, item.avatar);
                     }
                     if (i == 1) {
                         console.log(item.name);
-                        console.log(item.avatar);
                         _this.game.setPlayer2NameAndAvatar(item.name, item.avatar);
                     }
                     if (i == 2) {
                         console.log(item.name);
-                        console.log(item.avatar);
                         _this.game.setPlayer3NameAndAvatar(item.name, item.avatar);
                     }
                     if (i == 3) {
@@ -140,7 +136,7 @@ var GameLobbyComponent = (function () {
                 console.log(_this.userGames);
                 _this.userGames.push({
                     uid: _this.uid, name: _this.player,
-                    statusDate: Date.now(), score: 0, stars: 0, avatar: _this.avatar
+                    statusDate: Date.now(), money: 100, avatar: _this.avatar
                 });
                 _this.body = JSON.stringify({ players: _this.userGames, state: 'pending' });
                 _this.updateGame(_this.body, gameId);

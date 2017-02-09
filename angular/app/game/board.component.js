@@ -55,6 +55,10 @@ var BoardComponent = (function () {
             }
         });
         this.websocketService.postJoinGame({ id: this.id, msg: 'Entrei', name: sessionStorage.getItem('name'), idPlayer: sessionStorage.getItem('_id') });
+        this.websocketService.joinGetHandMessage().subscribe(function (m) {
+            _this.hand = m;
+            console.log(_this.hand);
+        });
         // this.getCreatorName();
         // this.getCreatorAvatar();
         // this.getPlayer2Name();
@@ -102,6 +106,20 @@ var BoardComponent = (function () {
     };
     BoardComponent.prototype.getPlayer4Avatar = function () {
         this.player4Avatar = this.gameService.getPlayer4Avatar();
+    };
+    BoardComponent.prototype.hasPlayer2 = function () {
+        console.log(this.gameService.hasPlayer2());
+        return this.gameService.hasPlayer2();
+    };
+    BoardComponent.prototype.hasPlayer3 = function () {
+        console.log(this.gameService.hasPlayer3());
+        return this.gameService.hasPlayer3();
+    };
+    BoardComponent.prototype.hasPlayer4 = function () {
+        console.log(this.gameService.hasPlayer4());
+        return this.gameService.hasPlayer4();
+    };
+    BoardComponent.prototype.startGame = function () {
     };
     return BoardComponent;
 }());

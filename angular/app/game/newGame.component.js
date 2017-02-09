@@ -27,8 +27,7 @@ var NewGameComponent = (function () {
         this.path = 'http://localhost:7777/api/v1/';
         this.beginDate = Date.now();
         this.endDate = '';
-        this.winner1 = '';
-        this.winner2 = '';
+        this.winner = '';
         this.creator = sessionStorage.getItem('name');
     }
     NewGameComponent.prototype.ngOnInit = function () {
@@ -42,7 +41,7 @@ var NewGameComponent = (function () {
         };
         this.Players.push(player);
         var playerID = sessionStorage.getItem('_id') + ' - ' + this.userName;
-        var body = JSON.stringify({ beginDate: this.beginDate, endDate: this.endDate, winner1: this.winner1, winner2: this.winner2,
+        var body = JSON.stringify({ beginDate: this.beginDate, endDate: this.endDate, winner: this.winner,
             creator: playerID, players: this.Players, state: 'pending' });
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');

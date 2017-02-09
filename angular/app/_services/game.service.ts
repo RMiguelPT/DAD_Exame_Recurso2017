@@ -77,6 +77,45 @@ constructor(public router: Router, private http: Http){}
         return this.creatorAvatar;
     }
 
+    hasPlayer2(){
+        if(this.player2Name=='') {
+
+            return false;
+        }
+        return true;
+    }
+    hasPlayer3(){
+        if(this.player3Name=='') {
+            
+            return false;
+        }
+        return true;
+    }
+    hasPlayer4(){
+        if(this.player4Name=='') {
+            
+            return false;
+        }
+        return true;
+    }
+    updateGame(body: any, gameId: any) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'bearer ' + this.authToken);
+        this.http.put(this.Path + 'games/' + gameId, body, <RequestOptionsArgs>{ headers: headers, withCredentials: false })
+            .subscribe(
+            response => {
+                this.router.navigate(['board', gameId]);
+
+            },
+            error => {
+                alert(error.text());
+                console.log(error.text());
+            }
+            );
+
+    }
+
     
 }
 

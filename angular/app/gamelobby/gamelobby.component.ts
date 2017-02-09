@@ -85,7 +85,6 @@ export class GameLobbyComponent {
         let player: any;  
         this.gameId = gameId;
         let headers = new Headers();
-        var totPlayers: any;
         var games: any[] = [];
         var i=1;
         var playerID = sessionStorage.getItem('_id');
@@ -105,7 +104,7 @@ export class GameLobbyComponent {
                     }
                 }
                 
-               //verificar se o próprio jogador não esta no array de jogo
+               //verificar se o jogo está cheio
                if (totPlayers < 4) {
                     this.getGame(this.gameId);
                     this.userGames = [{player: player}];
@@ -114,19 +113,16 @@ export class GameLobbyComponent {
                     for (let item of games) {
                             if (i==0) {
                                 console.log(item.name);
-                                console.log(item.avatar);
                                 this.game.setCreatorNameAndAvatar(item.name, item.avatar);
                             }
 
                             if (i==1) {
                                 console.log(item.name);
-                                console.log(item.avatar);
                                 this.game.setPlayer2NameAndAvatar(item.name, item.avatar);
                             }
 
                             if (i==2) {
                                 console.log(item.name);
-                                console.log(item.avatar);
                                 this.game.setPlayer3NameAndAvatar(item.name, item.avatar);
                             }
 
@@ -171,7 +167,7 @@ export class GameLobbyComponent {
                     console.log(this.userGames);
                     this.userGames.push({
                         uid: this.uid, name: this.player,
-                        statusDate: Date.now(), score: 0, stars:0, avatar: this.avatar
+                        statusDate: Date.now(), money: 100, avatar: this.avatar
                     });       
                     this.body = JSON.stringify({ players: this.userGames, state: 'pending' });
                     this.updateGame(this.body, gameId);

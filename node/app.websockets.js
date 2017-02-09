@@ -10,10 +10,10 @@ var WebSocketServer = (function () {
         this.board = [];
         this.game = new app_games_1.Game();
         this.init = function (server) {
-            _this.initBoard();
-            _this.io = io.listen(server);
+            //this.initBoard();
+            _this.io = io.listen(server); //servidor escuta???    
             _this.io.sockets.on('connection', function (client) {
-                client.emit('players', Date.now() + ': Welcome to DAD - Sueca');
+                client.emit('players', Date.now() + ': Welcome to DAD - Draw Poker');
                 client.broadcast.emit('players', Date.now() + ': A new player has arrived');
                 client.on('chat', function (data) { return _this.io.emit('chat', data); });
                 client.on('chatGame', function (msgData) {
@@ -35,7 +35,6 @@ var WebSocketServer = (function () {
                         _id: id
                     })
                         .then(function (game) {
-                        //console.log(game);
                         client.emit('gameJoin', game);
                         client.broadcast.to(msgData.id).emit('gameJoin', game);
                     });
@@ -47,7 +46,7 @@ var WebSocketServer = (function () {
                     if (_this.board[indexElement] > 2) {
                         _this.board[indexElement] = 0;
                     }
-                    _this.notifyAll('board', _this.board);
+                    // this.notifyAll('board', this.board);
                 });
             });
         };
@@ -56,6 +55,27 @@ var WebSocketServer = (function () {
         };
         this.notifyGameId = function (channel, message, gameId) {
             _this.io.sockets.emit(channel, message, gameId);
+        };
+        this.startGame = function (server) {
+            _this.io = io.listen(server);
+            _this.io.sockets.on('connection', function (client) {
+                client.on('gameChannel', function (msgData) {
+                    var id = new mongodb.ObjectID(msgData.id);
+                    //const game = request.body;
+                    client.emit('gameChannel', Date.now() + ': Jogo iniciou!!!'); //envio para quem clicou no start
+                    client.broadcast.emit('gameChannel', Date.now() + ': Jogo iniciou!!!'); //envio para os outros jogadores
+                    app_database_1.databaseConnection.db.collection('games')
+                        .updateOne({
+                        _id: id
+                    }, {
+                        $set: game
+                    })
+                        .then(function (game) {
+                        client.emit('gameChannel', game);
+                        client.broadcast.to(msgData.id).emit('gameJoin', game);
+                    });
+                });
+            });
         };
     }
     WebSocketServer.prototype.initBoard = function () {
@@ -66,5 +86,4 @@ var WebSocketServer = (function () {
     return WebSocketServer;
 }());
 exports.WebSocketServer = WebSocketServer;
-;
 //# sourceMappingURL=app.websockets.js.map

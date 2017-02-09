@@ -25,6 +25,7 @@ export class BoardComponent implements OnInit{
     public id: any;
     public game: any;
     public loggedUser='';
+    public hand:any;
 
       
     constructor(private websocketService: WebSocketService, private gameService: GameService, private route: ActivatedRoute,
@@ -70,6 +71,14 @@ export class BoardComponent implements OnInit{
 
     
         this.websocketService.postJoinGame({ id: this.id, msg: 'Entrei', name: sessionStorage.getItem('name'), idPlayer: sessionStorage.getItem('_id') });
+
+        this.websocketService.joinGetHandMessage().subscribe((m:any)=>{
+
+            this.hand=m;
+             console.log(this.hand);
+
+        });
+
              
         // this.getCreatorName();
         // this.getCreatorAvatar();
@@ -134,6 +143,39 @@ export class BoardComponent implements OnInit{
     getPlayer4Avatar() {
         this.player4Avatar = this.gameService.getPlayer4Avatar();
     }
+    hasPlayer2(){
+        console.log(this.gameService.hasPlayer2());
+        return this.gameService.hasPlayer2();
+    }
+    hasPlayer3(){
+        console.log(this.gameService.hasPlayer3());
+        return this.gameService.hasPlayer3();
+    }
+    hasPlayer4(){
+        console.log(this.gameService.hasPlayer4());
+        return this.gameService.hasPlayer4();
+    }
+    startGame(){
+
+
+    }
+    /*updateGame(body: any, gameId: any) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'bearer ' + this.authToken);
+        this.http.put(this.Path + 'games/' + gameId, body, <RequestOptionsArgs>{ headers: headers, withCredentials: false })
+            .subscribe(
+            response => {
+                this.router.navigate(['board', gameId]);
+
+            },
+            error => {
+                alert(error.text());
+                console.log(error.text());
+            }
+            );
+
+    }*/
 }
 
 

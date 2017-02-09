@@ -17,10 +17,10 @@ export class WebSocketServer {
     }
 
     public init = (server: any) => {
-        this.initBoard();
-        this.io = io.listen(server);            
-        this.io.sockets.on('connection', (client: any) => {
-            client.emit('players', Date.now() + ': Welcome to DAD - Sueca');
+        //this.initBoard();
+        this.io = io.listen(server);        //servidor escuta???    
+        this.io.sockets.on('connection', (client: any) => {    //envia de servidor para cliente??
+            client.emit('players', Date.now() + ': Welcome to DAD - Draw Poker');
             client.broadcast.emit('players', Date.now() + ': A new player has arrived');
             client.on('chat', (data) => this.io.emit('chat', data));
             
@@ -52,7 +52,7 @@ export class WebSocketServer {
                     })
                     .then(game => {
 
-                        //console.log(game);
+                       
                         
                          client.emit('gameJoin', game);
                         client.broadcast.to(msgData.id).emit('gameJoin', game);
@@ -67,7 +67,7 @@ export class WebSocketServer {
                 if (this.board[indexElement] > 2) {
                     this.board[indexElement] = 0;
                 }
-                this.notifyAll('board', this.board);
+               // this.notifyAll('board', this.board);
             });
 
         });
@@ -79,4 +79,36 @@ export class WebSocketServer {
    public notifyGameId = (channel: string, message: any, gameId: any) => {
        this.io.sockets.emit(channel,message, gameId);
    } 
+
+   public startGame = (server: any) => {
+
+
+       this.io = io.listen(server);
+       this.io.sockets.on('connection', (client: any) => {    //envia de servidor para cliente??
+            
+            client.on('gameChannel', (msgData) => {
+                var id = new mongodb.ObjectID(msgData.id);
+                //const game = request.body;
+                client.emit('gameChannel', Date.now() + ': Jogo iniciou!!!'); //envio para quem clicou no start
+                client.broadcast.emit('gameChannel', Date.now() + ': Jogo iniciou!!!'); //envio para os outros jogadores
+                
+                
+                    database.db.collection('games')
+                    .updateOne({
+                        _id: id
+                    }, {
+                        $set: game
+                    })
+                    .then(game => {
+
+                       
+                        
+                         client.emit('gameChannel', game);
+                        client.broadcast.to(msgData.id).emit('gameJoin', game);
+                    });
+
+            });
+
+
+   }
 };

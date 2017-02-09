@@ -65,6 +65,9 @@ export class WebSocketService {
    postJoinGame(msgData: any) {
        this.socket.emit('gameJoin', msgData);
     }
+    joinGetHandMessage(): Observable<any> {
+        return this.listenOnChannel('handDeal');
+    }
 
  
     private listenOnChannel(channel: string): Observable<any> {
