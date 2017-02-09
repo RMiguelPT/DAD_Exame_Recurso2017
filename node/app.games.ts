@@ -5,6 +5,12 @@ import {databaseConnection as database} from './app.database';
 import { Deck } from "./app.deck";
 
 export class Game {
+    private hand1: any [] = [];
+    private hand2: any [] = [];
+    private hand3: any [] = [];
+    private hand4: any [] = [];
+    private nextHand: any = 1;
+
 
     private handleError = (err: string, response: any, next: any) => {
     	response.send(500, err);
@@ -116,19 +122,58 @@ export class Game {
 
             var deck: Deck;
             deck = new Deck();
+            
+            for(var i = 0; i < 10; i++){
+                this.hand1.push(deck.dealCard());
+            }
+            for(var i = 0; i < 10; i++){
+                this.hand2.push(deck.dealCard());
+            }
+            for(var i = 0; i < 10; i++){
+                this.hand3.push(deck.dealCard());
+            }
+            for(var i = 0; i < 10; i++){
+                this.hand4.push(deck.dealCard());
+            }
+
+            console.log(this.hand1);
+            console.log(this.hand2);
+            console.log(this.hand3);
+            console.log(this.hand4);
+
            // deck.createDeck();
     }
+    public getHands(){
+        switch (this.nextHand)
+        {
+            case 1:                
+                this.nextHand++;
+                return this.hand1;
+            case 2:                
+                this.nextHand++;
+                return this.hand2;
+            case 3:                
+                this.nextHand++;
+                return this.hand3;
+            case 4: 
+                this.nextHand=1;
+                return this.hand4;
+        }
+        
+    }
 
+
+   
     public deleteGame =  (request: any, response: any, next: any) => {
-        const id = new mongodb.ObjectID(request.params.id);
+        const state = request.params.state;
         database.db.collection('games')
-            .deleteOne({
-                _id: id
+            .deleteMany({
+                state: state
             })
             .then(result => {
-                if (result.deletedCount === 1) {
+                if (result.deletedCount != 0) {
                     response.json({
-                        msg: util.format('Game -%s- Deleted', id)
+                        msg: util.format('Game -%s- Deleted')
                     });
                 } else {
                     response.send(404, 'No game found');
@@ -141,14 +186,16 @@ export class Game {
     // Routes for the games
     public init = (server: any, settings: HandlerSettings) => {
         server.get(settings.prefix + 'games', settings.security.authorize, this.getGames);
-        server.get(settings.prefix + 'games/:id', settings.security.authorize, this.getGame);
+        //server.get(settings.prefix + 'games/:id', settings.security.authorize, this.getGame);
         //server.get(settings.prefix + 'games/:id', this.getGame);
         server.get(settings.prefix + 'finishedGames', this.getGamesFinished);
         server.put(settings.prefix + 'games/:id', settings.security.authorize, this.updateGame);
         server.post(settings.prefix + 'games', settings.security.authorize, this.createGame);
         server.get(settings.prefix + 'pendingGames',  this.getGamesPending);
         server.get(settings.prefix + 'runningGames',  this.getGamesRunnig);
-        server.del(settings.prefix + 'games/:id', settings.security.authorize, this.deleteGame);
+        server.del(settings.prefix + 'games/:state', this.deleteGame);
+        server.get(settings.prefix + 'games/:id', settings.security.authorize, this.getGame);
+        
         console.log("Games routes registered");
     };    
 }

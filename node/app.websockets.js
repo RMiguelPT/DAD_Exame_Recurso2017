@@ -1,16 +1,45 @@
 "use strict";
+//import { ReflectGetMetadataInvalidTarget } from 'reflect-metadata/temp/test/spec';
+var app_games_1 = require("./app.games");
 var io = require('socket.io');
+var mongodb = require('mongodb');
+var app_database_1 = require("./app.database");
 var WebSocketServer = (function () {
     function WebSocketServer() {
         var _this = this;
         this.board = [];
+        this.game = new app_games_1.Game();
         this.init = function (server) {
             _this.initBoard();
             _this.io = io.listen(server);
             _this.io.sockets.on('connection', function (client) {
-                client.emit('players', Date.now() + ': Welcome to Draw Poker');
+                client.emit('players', Date.now() + ': Welcome to DAD - Sueca');
                 client.broadcast.emit('players', Date.now() + ': A new player has arrived');
                 client.on('chat', function (data) { return _this.io.emit('chat', data); });
+                client.on('chatGame', function (msgData) {
+                    client.join(msgData.id);
+                    client.emit('chatGame', msgData.name + ': ' + msgData.msg);
+                    client.to(msgData.id).emit('chatGame', msgData.name + ': ' + msgData.msg);
+                });
+                client.on('gameNotification', function (msgData) {
+                    var sessionid = client.id;
+                    client.join(msgData.id);
+                    client.emit('gameNotification', msgData.name + ': Welcome to game Room ' + msgData.id);
+                    client.broadcast.to(msgData.id).emit('gameNotification', Date.now() + ': ' + msgData.name + ' has arrived');
+                });
+                client.on('gameJoin', function (msgData) {
+                    //client.join(msgData.id);
+                    var id = new mongodb.ObjectID(msgData.id);
+                    app_database_1.databaseConnection.db.collection('games')
+                        .findOne({
+                        _id: id
+                    })
+                        .then(function (game) {
+                        //console.log(game);
+                        client.emit('gameJoin', game);
+                        client.broadcast.to(msgData.id).emit('gameJoin', game);
+                    });
+                });
                 //Extra Exercise
                 client.emit('board', _this.board);
                 client.on('clickElement', function (indexElement) {
@@ -24,6 +53,9 @@ var WebSocketServer = (function () {
         };
         this.notifyAll = function (channel, message) {
             _this.io.sockets.emit(channel, message);
+        };
+        this.notifyGameId = function (channel, message, gameId) {
+            _this.io.sockets.emit(channel, message, gameId);
         };
     }
     WebSocketServer.prototype.initBoard = function () {

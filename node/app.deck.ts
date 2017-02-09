@@ -20,9 +20,9 @@ export class Deck {
         this._cards = [];
         this.createDeck();
         this.shuffle(200);
-        this._cards.forEach(element => {
+        /*this._cards.forEach(element => {
             console.log(element.toString());
-        });
+        });*/
     }
  
     addCard(card: Card): void {
@@ -84,7 +84,7 @@ export class Deck {
               //console.log("" + i + " " + card.toString());
           }
       }
-      console.log("Deck created");
+      //console.log("Deck created");
    }
 
 

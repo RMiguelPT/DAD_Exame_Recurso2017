@@ -27,9 +27,9 @@ export class SignUpComponent {
         console.log("Entrou - SIGNUP");
         let avatar = "avatar_def.png";
         let totalVictories = 0;
-        let totalMoney =  0;
+        let totalPoints =  0;
 
-        let body = JSON.stringify({ name, username, passwordHash, email, avatar, totalVictories, totalMoney });
+        let body = JSON.stringify({ name, username, passwordHash, email, avatar, totalVictories, totalPoints });
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this.http

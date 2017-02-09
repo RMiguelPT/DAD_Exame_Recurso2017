@@ -16,7 +16,7 @@ import { GameService } from "./../_services/game.service";
     templateUrl: `gamelobby.component.html`
 })
 export class GameLobbyComponent { 
-        public player = sessionStorage.getItem('name').toString();
+        public player = sessionStorage.getItem('name');
         public avatar = sessionStorage.getItem('avatar');
         private uid = sessionStorage.getItem('_id');
         public authToken:string = sessionStorage.getItem('id_token');
@@ -28,6 +28,8 @@ export class GameLobbyComponent {
         private Path: string;
         private gameId:any;
         public body:any;
+        public idPlayers :any;
+        public idPlayerInArray: boolean;
 
 
 
@@ -77,7 +79,7 @@ export class GameLobbyComponent {
             );
 
     }
-    joinGame(gameId : any, ){
+    joinGame(gameId : any ){
         var joinButton = document.getElementById('joinGame');
         var totPlayers: any;
         let player: any;  
@@ -86,6 +88,7 @@ export class GameLobbyComponent {
         var totPlayers: any;
         var games: any[] = [];
         var i=1;
+        var playerID = sessionStorage.getItem('_id');
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', 'bearer ' + this.authToken);
         this.http.get(this.Path + 'games/' + gameId, <RequestOptionsArgs>{ headers: headers, withCredentials: false })
@@ -94,7 +97,16 @@ export class GameLobbyComponent {
                 //get the total players number
                 totPlayers = response.json().players.length;
                 games = response.json().players;
-                if (totPlayers < 4) {
+
+                for (let gamer of games) {
+                    if(gamer.uid == playerID) {
+                        alert ("THIS PLAYER ALREADY JOINED THIS GAME!!");
+                        return;
+                    }
+                }
+                
+               //verificar se o próprio jogador não esta no array de jogo
+               if (totPlayers < 4) {
                     this.getGame(this.gameId);
                     this.userGames = [{player: player}];
                     this.body = JSON.stringify({ players: this.userGames, state: 'pending' });
@@ -132,7 +144,7 @@ export class GameLobbyComponent {
                 }
         },
             error => {
-                //alert(error.text());
+                
                 console.log(error.text());
             }
             );       
@@ -153,7 +165,7 @@ export class GameLobbyComponent {
             response => {
 
                 totPlayers = response.json().players.length;
-               
+
                 if (response.json().players.length < 4) {
                     this.userGames = response.json().players;
                     console.log(this.userGames);
@@ -191,6 +203,27 @@ export class GameLobbyComponent {
                 console.log(error.text());
             }
             );
+
+    }
+
+    getIdPlayersGame(userGames: any){
+
+        
+
+        this.idPlayers=userGames.keys('uid');
+
+        return this.idPlayers;
+
+    }
+    compareArrayPlayers(idPlayers : any, uid:any){
+
+        for (var i = 0; i >= idPlayers.length; i++) {
+            if(uid == idPlayers[i]) {
+                this.idPlayerInArray= true;
+            }
+            this.idPlayerInArray= false;
+        }
+
 
     }
 

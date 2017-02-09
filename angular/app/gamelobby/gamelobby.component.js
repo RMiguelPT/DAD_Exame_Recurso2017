@@ -19,7 +19,7 @@ var GameLobbyComponent = (function () {
         this.router = router;
         this.http = http;
         this.game = game;
-        this.player = sessionStorage.getItem('name').toString();
+        this.player = sessionStorage.getItem('name');
         this.avatar = sessionStorage.getItem('avatar');
         this.uid = sessionStorage.getItem('_id');
         this.authToken = sessionStorage.getItem('id_token');
@@ -70,6 +70,7 @@ var GameLobbyComponent = (function () {
         var totPlayers;
         var games = [];
         var i = 1;
+        var playerID = sessionStorage.getItem('_id');
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', 'bearer ' + this.authToken);
         this.http.get(this.Path + 'games/' + gameId, { headers: headers, withCredentials: false })
@@ -77,13 +78,21 @@ var GameLobbyComponent = (function () {
             //get the total players number
             totPlayers = response.json().players.length;
             games = response.json().players;
+            for (var _i = 0, games_1 = games; _i < games_1.length; _i++) {
+                var gamer = games_1[_i];
+                if (gamer.uid == playerID) {
+                    alert("THIS PLAYER ALREADY JOINED THIS GAME!!");
+                    return;
+                }
+            }
+            //verificar se o próprio jogador não esta no array de jogo
             if (totPlayers < 4) {
                 _this.getGame(_this.gameId);
                 _this.userGames = [{ player: player }];
                 _this.body = JSON.stringify({ players: _this.userGames, state: 'pending' });
                 _this.updateGame(_this.body, _this.gameId);
-                for (var _i = 0, games_1 = games; _i < games_1.length; _i++) {
-                    var item = games_1[_i];
+                for (var _a = 0, games_2 = games; _a < games_2.length; _a++) {
+                    var item = games_2[_a];
                     if (i == 0) {
                         console.log(item.name);
                         console.log(item.avatar);
@@ -112,7 +121,6 @@ var GameLobbyComponent = (function () {
                 alert('TOTAL PLAYERS MAXED OUT');
             }
         }, function (error) {
-            //alert(error.text());
             console.log(error.text());
         });
         console.log(gameId);
@@ -157,6 +165,18 @@ var GameLobbyComponent = (function () {
             alert(error.text());
             console.log(error.text());
         });
+    };
+    GameLobbyComponent.prototype.getIdPlayersGame = function (userGames) {
+        this.idPlayers = userGames.keys('uid');
+        return this.idPlayers;
+    };
+    GameLobbyComponent.prototype.compareArrayPlayers = function (idPlayers, uid) {
+        for (var i = 0; i >= idPlayers.length; i++) {
+            if (uid == idPlayers[i]) {
+                this.idPlayerInArray = true;
+            }
+            this.idPlayerInArray = false;
+        }
     };
     GameLobbyComponent.prototype.logout = function (event, username, password) {
         this.authentication.logout();

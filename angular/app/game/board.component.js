@@ -11,34 +11,62 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var websocket_service_1 = require("../notifications/websocket.service");
 var game_service_1 = require("./../_services/game.service");
+var router_1 = require("@angular/router");
 var BoardComponent = (function () {
-    function BoardComponent(websocketService, gameService) {
+    function BoardComponent(websocketService, gameService, route, router) {
         this.websocketService = websocketService;
         this.gameService = gameService;
+        this.route = route;
+        this.router = router;
         this.elementos = [];
         this.creatorName = '';
         this.player2Name = '';
         this.player3Name = '';
         this.player4Name = '';
+        this.loggedUser = '';
     }
     BoardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.elementos = [];
+        // get URL parameters
+        this.subscriber = this.route
+            .params
+            .subscribe(function (params) {
+            _this.id = params['id'];
+        });
         this.websocketService.getBoardMessages().subscribe(function (m) {
             console.log(m);
             _this.elementos = m;
         });
-        this.getCreatorName();
-        this.getCreatorAvatar();
-        this.getPlayer2Name();
-        this.getPlayer2Avatar();
-        this.getPlayer3Name();
-        this.getPlayer3Avatar();
-        this.getPlayer4Name();
-        this.getPlayer4Avatar();
+        this.websocketService.joinGameMessages().subscribe(function (m) {
+            _this.game = m;
+            _this.creatorName = m.players[0].name;
+            _this.creatorAvatar = m.players[0].avatar;
+            if (m.players[1] != undefined) {
+                _this.player2Name = m.players[1].name;
+                _this.player2Avatar = m.players[1].avatar;
+            }
+            if (m.players[2] != undefined) {
+                _this.player3Name = m.players[2].name;
+                _this.player3Avatar = m.players[2].avatar;
+            }
+            if (m.players[3] != undefined) {
+                _this.player4Name = m.players[3].name;
+                _this.player4Avatar = m.players[3].avatar;
+            }
+        });
+        this.websocketService.postJoinGame({ id: this.id, msg: 'Entrei', name: sessionStorage.getItem('name'), idPlayer: sessionStorage.getItem('_id') });
+        // this.getCreatorName();
+        // this.getCreatorAvatar();
+        // this.getPlayer2Name();
+        // this.getPlayer2Avatar();
+        // this.getPlayer3Name();
+        // this.getPlayer3Avatar();
+        // this.getPlayer4Name();
+        // this.getPlayer4Avatar();
     };
     BoardComponent.prototype.clickElemento = function (index) {
         this.websocketService.sendClickElementMessage(index);
+        console.log(this.game);
     };
     BoardComponent.prototype.getColor = function (elemento) {
         switch (elemento) {
@@ -47,6 +75,9 @@ var BoardComponent = (function () {
             case 2: return 'red';
         }
         return 'white';
+    };
+    BoardComponent.prototype.asDeEspadas = function () {
+        this.loggedUser = sessionStorage.getItem('name');
     };
     BoardComponent.prototype.getCreatorName = function () {
         this.creatorName = this.gameService.getCreatorName();
@@ -81,7 +112,8 @@ BoardComponent = __decorate([
         templateUrl: 'board.component.html',
         styleUrls: ['board.component.css']
     }),
-    __metadata("design:paramtypes", [websocket_service_1.WebSocketService, game_service_1.GameService])
+    __metadata("design:paramtypes", [websocket_service_1.WebSocketService, game_service_1.GameService, router_1.ActivatedRoute,
+        router_1.Router])
 ], BoardComponent);
 exports.BoardComponent = BoardComponent;
 //# sourceMappingURL=board.component.js.map

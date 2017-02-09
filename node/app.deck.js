@@ -14,9 +14,9 @@ var Deck = (function () {
         this._cards = [];
         this.createDeck();
         this.shuffle(200);
-        this._cards.forEach(function (element) {
+        /*this._cards.forEach(element => {
             console.log(element.toString());
-        });
+        });*/
     }
     Deck.prototype.addCard = function (card) {
         // You can bypass runtime type checking here if you're using all TypeScript,
@@ -65,9 +65,10 @@ var Deck = (function () {
                 this.addCard(card);
             }
         }
-        console.log("Deck created");
+        //console.log("Deck created");
     };
     return Deck;
 }());
 Deck.Suit = Suit;
 exports.Deck = Deck;
+//# sourceMappingURL=app.deck.js.map

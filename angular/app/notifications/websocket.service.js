@@ -33,6 +33,30 @@ var WebSocketService = (function () {
     WebSocketService.prototype.getBoardMessages = function () {
         return this.listenOnChannel('board');
     };
+    WebSocketService.prototype.sendChatMessageGame = function (message, gameId) {
+        this.socket.emit('chat', message);
+    };
+    WebSocketService.prototype.getPlayersMessagesGame = function () {
+        return this.listenOnChannel('players');
+    };
+    WebSocketService.prototype.sendGameChatMessage = function (msgData) {
+        this.socket.emit('chatGame', msgData);
+    };
+    WebSocketService.prototype.sendGamePlayersMessage = function (msgData) {
+        this.socket.emit('gameNotification', msgData);
+    };
+    WebSocketService.prototype.getGameChatMessages = function () {
+        return this.listenOnChannel('chatGame');
+    };
+    WebSocketService.prototype.getGamePlayersMessages = function () {
+        return this.listenOnChannel('gameNotification');
+    };
+    WebSocketService.prototype.joinGameMessages = function () {
+        return this.listenOnChannel('gameJoin');
+    };
+    WebSocketService.prototype.postJoinGame = function (msgData) {
+        this.socket.emit('gameJoin', msgData);
+    };
     WebSocketService.prototype.listenOnChannel = function (channel) {
         var _this = this;
         return new Observable_1.Observable(function (observer) {
