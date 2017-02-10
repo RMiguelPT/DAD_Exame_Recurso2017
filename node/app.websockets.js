@@ -67,9 +67,7 @@ var WebSocketServer = (function () {
                     app_database_1.databaseConnection.db.collection('games')
                         .updateOne({
                         _id: id
-                    }, {
-                        $set: game
-                    })
+                    }, {})
                         .then(function (game) {
                         client.emit('gameChannel', game);
                         client.broadcast.to(msgData.id).emit('gameJoin', game);

@@ -81,8 +81,6 @@ export class WebSocketServer {
    } 
 
    public startGame = (server: any) => {
-
-
        this.io = io.listen(server);
        this.io.sockets.on('connection', (client: any) => {    //envia de servidor para cliente??
             
@@ -97,18 +95,14 @@ export class WebSocketServer {
                     .updateOne({
                         _id: id
                     }, {
-                        $set: game
+                        //$set: game
                     })
                     .then(game => {
-
-                       
-                        
                          client.emit('gameChannel', game);
                         client.broadcast.to(msgData.id).emit('gameJoin', game);
                     });
 
             });
-
-
-   }
-};
+   });
+}
+}
