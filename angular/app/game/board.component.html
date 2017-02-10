@@ -6,7 +6,6 @@
                 
             </div>     
  <h4>Game ID: {{id}}</h4>
- <h4><a (click)="asDeEspadas()" >Ás de Espadas</a></h4><h4 id="asEspadas">{{loggedUser}}</h4>
             <div style="padding-top:30px;  background-color: green" class="panel-body" >
                 <!--<div class="container">-->
                 <div class="col-md-12" style="text-align: center; border:2px solid">
@@ -20,22 +19,17 @@
                 <div class="col-md-8"style="text-align: center; border:2px solid">
 
                     <!--<div class="container">-->
-
-
                         <div class="col-md-12">
-                            
                             <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
                             <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
                             <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
                             <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
                             <div class="col-md-2" ><img src="./img/semFace.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer2()==true"></div><!--player1 div-->
-                            
                         </div>  
                         <div class="col-md-4" >
                                     GAME POT MONEY
                         </div> <!--pot div-->
-                        <div class="col-md-12">
-                                
+                        <div class="col-md-12">   
                                 <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
                                 <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
                                 <div class="col-md-2" ><img src="./img/semface.png" style="width: 50%; height: 50%; text-align:center" class="img-responsive" *ngIf="hasPlayer3()==true"></div><!--player2 div-->
@@ -73,13 +67,15 @@
                     <img style= "height: 80px; width: 80px;"  src="./img/{{creatorAvatar}}" class="img-circle"><br> {{creatorName}}
                     
                 </div>
-                <a style="width:150px" id="btn-home" class="btn btn-info" routerLink ="/gamelobby">Pass</a>
-                <a style="width:150px" id="btn-home" class="btn btn-success" routerLink ="/gamelobby">Raise/Bet</a> <input type="number" name="betValue">
-                <a style="width:150px" id="btn-home" class="btn btn-warning" routerLink ="/gamelobby">Fold</a>
-
-                
             <!--</div>-->
             </div> 
+            <div style="padding-top:10px; padding-bottom: 10px;  background-color: green">
+                    
+                    <a style="width:150px" id="btn-home" class="btn btn-success" routerLink ="/gamelobby">Raise/Bet</a> <input type="number" name="betValue">
+                    <a style="width:150px" id="btn-home" class="btn btn-warning" routerLink ="/gamelobby">Fold</a>    
+                    <a style="width:150px" id="btn-home" class="btn btn-info" routerLink ="/gamelobby">Pass</a>         
+
+                </div>
             <div style="padding-top:30px; padding-bottom: 30px" class="panel-footer" >
                 <div style="float:left; font-size: 80%; position: relative; top:-10px; margin-bottom: 10px" >
                     <div class="col-md-6">Points Team 1:</div>
@@ -98,8 +94,6 @@
                     <gameChat [idGame] = "id"></gameChat>
                 </div>
               <button class="test" (click)="clickElemento()" md-raised-button color="accent">Console log para mostrar q esta board desenhada e mesma a minha</button>
-
-                
             </div>                    
         </div>  
     </div>
